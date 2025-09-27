@@ -1,0 +1,155 @@
+/* Container */
+.productsContainer {
+  margin-left: 220px; /* match sidebar width */
+  margin-top: 00px;   /* match navbar height */
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: calc(100vh - 70px);
+  box-sizing: border-box;
+}
+
+/* Title */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Add Product Form */
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.form input,
+.form textarea,
+.form button {
+  flex: 1 1 200px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form button {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.form button:hover {
+  background: #2980b9;
+}
+
+/* Product Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.table th {
+  background: #3498db;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table tr:hover {
+  background: #f1f7ff;
+}
+
+.table img {
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Action Buttons */
+.table button {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.addBtn{
+     padding: 6px 12px;
+  margin-bottom:10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+  background: #3498db;
+  height: 50px;
+
+}
+.table button:first-of-type {
+  background: #27ae60;
+  color: white;
+}
+
+.table button:first-of-type:hover {
+  background: #1e874b;
+}
+
+.table button:last-of-type {
+  background: #e74c3c;
+  color: white;
+}
+
+.table button:last-of-type:hover {
+  background: #c0392b;
+}
+.edtbtn{
+  width: 62px;
+ 
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .productsContainer {
+    margin-left: 0;
+    margin-top: 60px;
+    padding: 15px;
+  }
+
+  .form {
+    flex-direction: column;
+  }
+
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+}

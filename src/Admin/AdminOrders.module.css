@@ -1,0 +1,133 @@
+/* Container */
+.ordersContainer {
+  margin-left: 220px; /* match sidebar width */
+  margin-top: 0px;    /* adjust if navbar exists */
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: calc(100vh - 70px);
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+.ordersContainer.collapsed {
+  margin-left: 60px; /* when sidebar is closed */
+}
+
+/* Title */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.table th {
+  background: #3498db;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table tr:hover {
+  background: #f1f7ff;
+}
+
+.table img {
+  width: 60px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Status colors */
+.statusDelivered {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.statusPending {
+  color: #e67e22;
+  font-weight: bold;
+}
+
+/* Buttons */
+.actionBtn {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.deliveredBtn {
+  background: #27ae60;
+  color: white;
+}
+
+.deliveredBtn:hover {
+  background: #1e874b;
+}
+
+.pendingBtn {
+  background: #e67e22;
+  color: white;
+}
+
+.pendingBtn:hover {
+  background: #ca6f1e;
+}
+
+/* ✅ Responsive like Users Table */
+@media (max-width: 768px) {
+  .ordersContainer {
+    margin-left: 0;
+    margin-top: 60px;
+    padding: 15px;
+  }
+
+  .table {
+    display: block;
+    overflow-x: auto; /* horizontal scroll */
+    white-space: nowrap;
+  }
+
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .table img {
+    width: 45px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .actionBtn {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}

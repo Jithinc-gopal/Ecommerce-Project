@@ -1,0 +1,91 @@
+/* Container for the form */
+.container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Form styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs and textarea */
+.form input,
+.form textarea,
+.form select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Focus effect */
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Error messages */
+.error {
+  font-size: 0.9rem;
+  color: #d9534f;
+  margin: -8px 0 5px 5px;
+}
+
+/* Payment label */
+.form label {
+  font-weight: 500;
+  margin-bottom: -5px;
+  color: #444;
+}
+
+/* Total price */
+.container h3 {
+  margin-top: 10px;
+  text-align: right;
+  color: #222;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Submit button */
+.form button {
+  background: #007bff;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form button:hover {
+  background: #0056b3;
+}

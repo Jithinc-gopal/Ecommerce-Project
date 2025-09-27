@@ -1,0 +1,65 @@
+.paymentContainer {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px 25px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.paymentContainer h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.paymentContainer hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 10px 0 20px;
+}
+
+.paymentContainer h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 10px 0;
+  color: #444;
+}
+
+.discount {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.shipping {
+  color: #e67e22;
+}
+
+.total {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.paymentButton {
+  margin-top: 25px;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.paymentButton:hover {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: translateY(-2px);
+}

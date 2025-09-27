@@ -1,0 +1,108 @@
+/* Container */
+.usersContainer {
+  margin-left: 220px; /* match sidebar width */
+  margin-top: 0px;    /* match navbar height if you have */
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: calc(100vh - 70px);
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+/* Collapsed sidebar */
+.usersContainer.collapsed {
+  margin-left: 60px;
+}
+
+/* Title */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* User Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.table th {
+  background: #3498db;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table tr:hover {
+  background: #f1f7ff;
+}
+
+/* Status styles */
+.status-active {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Action Buttons */
+.actionBtn {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.blockBtn {
+  background: #e74c3c;
+  color: white;
+}
+
+.blockBtn:hover {
+  background: #c0392b;
+}
+
+.unblockBtn {
+  background: #27ae60;
+  color: white;
+}
+
+.unblockBtn:hover {
+  background: #1e874b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .usersContainer {
+    margin-left: 0;
+    margin-top: 60px; /* leave space for navbar if fixed */
+    padding: 15px;
+  }
+
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+}

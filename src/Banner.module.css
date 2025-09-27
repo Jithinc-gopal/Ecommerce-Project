@@ -1,0 +1,84 @@
+/* ===========================
+   Banner Container
+=========================== */
+.bannerContainer {
+  width: 90%;
+  max-width: 100%;
+  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* ===========================
+   Banner Wrapper
+=========================== */
+.banner {
+  display: flex;
+  transition: transform 1s ease-in-out;
+}
+
+/* ===========================
+   Banner Images
+=========================== */
+.banner img {
+  width: 100%;
+  flex-shrink: 0;
+  aspect-ratio: 16/6;   /* thinner ratio for desktop/laptop */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+/* ===========================
+   Overlay Text
+=========================== */
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  max-width: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: #fff;
+  padding: 0.8em 1.2em;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+/* ===========================
+   Tablet View
+=========================== */
+@media (max-width: 1024px) {
+  .bannerContainer {
+    width: 95%;
+  }
+  .banner img {
+    aspect-ratio: 16/7; /* slightly taller */
+  }
+}
+
+/* ===========================
+   Mobile View
+=========================== */
+@media (max-width: 768px) {
+  .bannerContainer {
+    width: 100%;
+    margin: 15px auto;
+  }
+
+  .banner img {
+    aspect-ratio: 16/9; /* standard height for mobile */
+  }
+
+  .overlay {
+    padding: 0.6em 1em;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+  }
+}
