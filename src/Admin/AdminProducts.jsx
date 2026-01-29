@@ -1,54 +1,44 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import styles from "./AdminProducts.module.css";
-import AdminNavbar from "./Adminnavbar";
+import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import AddProductForm from "./AddProductForm";
 import { useNavigate } from "react-router-dom";
+import API from "../api/axios";
 
 const AdminProducts = () => {
-  const navigate  = useNavigate()
+  const navigate = useNavigate();
+
   const [products, setProducts] = useState([]);
-  const [editingProduct, setEditingProduct] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  // Fetch products
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
+  /* =========================
+     FETCH PRODUCTS
+  ========================= */
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/products");
+      const res = await API.get("/products/products/");
       setProducts(res.data);
     } catch (err) {
       console.error("Error fetching products", err);
     }
   };
 
-  // Delete product
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  /* =========================
+     DELETE PRODUCT
+  ========================= */
   const deleteProduct = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
+
     try {
-      await axios.delete(`http://localhost:3000/products/${id}`);
+      await API.delete(`/products/products/${id}/`);
       fetchProducts();
     } catch (err) {
-      console.error("Error deleting product", err);
-    }
-  };
-
-  // Edit product
-  const startEdit = (product) => {
-    setEditingProduct(product);
-  };
-
-  const updateProduct = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`http://localhost:3000/products/${editingProduct.id}`, editingProduct);
-      setEditingProduct(null);
-      fetchProducts();
-    } catch (err) {
-      console.error("Error updating product", err);
+      console.error("Delete failed", err);
+      alert("Only admin users can delete products");
     }
   };
 
@@ -56,15 +46,24 @@ const AdminProducts = () => {
     <>
       <AdminNavbar />
       <AdminSidebar />
-      <div className={styles.productsContainer}>
-        <h2 className={styles.title}>Manage Products</h2>
 
-        {/* Add Product Button */}
-        <button className={styles.addBtn} onClick={() => setShowForm(true)}>
-          + Add Product
-        </button>
+      {/* MAIN CONTENT */}
+      <div className="md:ml-64 p-6 bg-gray-100 min-h-screen">
+        {/* HEADER */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-black">
+            Manage <span className="text-yellow-500">Products</span>
+          </h2>
 
-        {/* Add Product Form Modal */}
+          <button
+            onClick={() => setShowForm(true)}
+            className="mt-4 md:mt-0 bg-yellow-400 text-black font-semibold px-5 py-2 rounded-lg hover:bg-yellow-500 transition"
+          >
+            + Add Product
+          </button>
+        </div>
+
+        {/* ADD PRODUCT MODAL */}
         {showForm && (
           <AddProductForm
             onClose={() => setShowForm(false)}
@@ -72,92 +71,74 @@ const AdminProducts = () => {
           />
         )}
 
-        {/* Product List */}
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Price ($)</th>
-              <th>Category</th>
-              <th>Image</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((p) =>
-              editingProduct && editingProduct.id === p.id ? (
-                <tr key={p.id}>
-                  <td>{p.id}</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={editingProduct.title}
-                      onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, name: e.target.value })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={editingProduct.price}
-                      onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, price: e.target.value })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={editingProduct.category}
-                      onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, category: e.target.value })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={editingProduct.image}
-                      onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, image: e.target.value })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <textarea
-                      value={editingProduct.description}
-                      onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, description: e.target.value })
-                      }
-                    ></textarea>
-                  </td>
-                  <td>
-                    <button onClick={updateProduct}>Save</button>
-                    <button  onClick={() => setEditingProduct(null)}>Cancel</button>
+        {/* TABLE */}
+        <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-black text-yellow-400 uppercase text-xs">
+              <tr>
+                <th className="px-4 py-3">ID</th>
+                <th className="px-4 py-3">Title</th>
+                <th className="px-4 py-3">Price (₹)</th>
+                <th className="px-4 py-3">Category</th>
+                <th className="px-4 py-3">Image</th>
+                <th className="px-4 py-3">Description</th>
+                <th className="px-4 py-3 text-center">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {products.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="7"
+                    className="text-center py-6 text-gray-500"
+                  >
+                    No products found
                   </td>
                 </tr>
               ) : (
-                <tr key={p.id}>
-                  <td>{p.id}</td>
-                  <td>{p.title}</td>
-                  <td>{p.price}</td>
-                  <td>{p.category}</td>
-                  <td>
-                    <img src={p.image} alt={p.name} width="60" />
-                  </td>
-                  <td>{p.description}</td>
-                  <td>
-                   <button className={styles.edtbtn} onClick={() => navigate(`/AdminProducts/edit/${p.id}`)}>Edit</button>
-                    <button  onClick={() => deleteProduct(p.id)}>Delete</button>
-                  </td>
-                </tr>
-              )
-            )}
-          </tbody>
-        </table>
+                products.map((p) => (
+                  <tr
+                    key={p.id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="px-4 py-3">{p.id}</td>
+                    <td className="px-4 py-3 font-medium">{p.title}</td>
+                    <td className="px-4 py-3">₹{p.price}</td>
+                    <td className="px-4 py-3">{p.category_name}</td>
+                    <td className="px-4 py-3">
+                      <img
+                        src={p.image}
+                        alt={p.title}
+                        className="w-14 h-14 object-cover rounded"
+                      />
+                    </td>
+                    <td className="px-4 py-3 text-gray-600 max-w-xs truncate">
+                      {p.description.slice(0, 60)}...
+                    </td>
+                    <td className="px-4 py-3 text-center space-x-2">
+                      <button
+                        onClick={() =>
+                          navigate(`/AdminProducts/edit/${p.id}`)
+                        }
+                        className="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 transition"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => deleteProduct(p.id)}
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

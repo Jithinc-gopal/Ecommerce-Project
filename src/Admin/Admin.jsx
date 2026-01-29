@@ -1,8 +1,7 @@
+// src/Admin/AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { FaBox, FaUsers, FaShoppingCart } from "react-icons/fa";
-import styles from "./Admin.module.css";
-import axios from "axios";
-import AdminNavbar from "./Adminnavbar";
+import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import {
   BarChart,
@@ -16,169 +15,161 @@ import {
   PieChart,
   Pie,
   Cell,
-   LineChart, Line
+  LineChart,
+  Line,
 } from "recharts";
-
-
+import API from "../api/axios";
 
 const AdminDashboard = () => {
-  const [user, setUser] = useState(0);
-  const [product, setProduct] = useState(0);
-  const [orders, setOrders] = useState(0);
+  const [counts, setCounts] = useState({ users: 0, products: 0, orders: 0 });
   const [categoryData, setCategoryData] = useState([]);
   const [lineChartData, setLineChartData] = useState([]);
 
-
   useEffect(() => {
-    async function fetch() {
+    const fetchData = async () => {
       try {
-        const userData = await axios.get("http://localhost:3000/user");
-        const productData = await axios.get("http://localhost:3000/products");
-
-        setUser(userData.data.length);
-        setProduct(productData.data.length);
-
- 
-       const lineData = userData.data.map((u, index) => ({
-  name: u.username, // use email or just `User 1`, `User 2`
-  orders: u.orders ? u.orders.length : 0,
-}));
-setLineChartData(lineData);
-
-        const totalOrder = userData.data.reduce((acc, user) => {
-          return acc + (user.orders ? user.orders.length : 0);
-        }, 0);
-        setOrders(totalOrder);
-
-        // Prepare category data for charts
-        const categoriesCount = {};
-        productData.data.forEach((p) => {
-          categoriesCount[p.category] = (categoriesCount[p.category] || 0) + 1;
-        });
-        const formatted = Object.keys(categoriesCount).map((cat) => ({
-          category: cat,
-          count: categoriesCount[cat]
-        }));
-        setCategoryData(formatted);
-
+        const { data } = await API.get("/custom_admin/dashboard/");
+        setCounts(data.counts);
+        setCategoryData(data.categories);
+        setLineChartData(data.user_orders);
       } catch (err) {
-        console.log("error occurred", err);
+        console.error("Dashboard fetch error:", err);
       }
-    }
-    fetch();
+    };
+
+    fetchData();
   }, []);
+
   const summaryData = [
-  { name: "Users", count: user },
-  { name: "Products", count: product },
-  { name: "Orders", count: orders }
-];
+    { name: "Users", count: counts.users },
+    { name: "Products", count: counts.products },
+    { name: "Orders", count: counts.orders },
+  ];
 
-
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const COLORS = ["#facc15", "#fde047", "#f59e0b", "#eab308"];
 
   return (
     <>
       <AdminNavbar />
       <AdminSidebar />
-      <div className={styles.dashboardContent}>
-        <h2 className={styles.title}>Dashboard Overview</h2>
 
-        {/* Cards */}
-        <div className={styles.cards}>
-          <div className={styles.card}>
-            <FaBox className={`${styles.icon} ${styles.blue}`} />
-            <div>
-              <p className={styles.label}>Products</p>
-              <h3 className={styles.value}>{product}</h3>
-            </div>
-          </div>
+      <div className="ml-[260px] min-h-screen bg-slate-900 p-6 text-yellow-200 max-md:ml-0">
+        {/* Title */}
+        <h2 className="text-3xl font-bold mb-6 text-yellow-300">
+          Dashboard Overview
+        </h2>
 
-          <div className={styles.card}>
-            <FaUsers className={`${styles.icon} ${styles.green}`} />
-            <div>
-              <p className={styles.label}>Users</p>
-              <h3 className={styles.value}>{user}</h3>
-            </div>
-          </div>
-
-          <div className={styles.card}>
-            <FaShoppingCart className={`${styles.icon} ${styles.orange}`} />
-            <div>
-              <p className={styles.label}>Orders</p>
-              <h3 className={styles.value}>{orders}</h3>
-            </div>
-          </div>
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <DashboardCard
+            icon={<FaBox />}
+            label="Products"
+            value={counts.products}
+          />
+          <DashboardCard
+            icon={<FaUsers />}
+            label="Users"
+            value={counts.users}
+          />
+          <DashboardCard
+            icon={<FaShoppingCart />}
+            label="Orders"
+            value={counts.orders}
+          />
         </div>
 
-           <div className={styles.chartBox}>
-          <h3 className={styles.chartTitle}>Users, Products & Orders</h3>
-          <ResponsiveContainer width="100%" height={400}>
+        {/* Bar Chart */}
+        <ChartBox title="Users, Products & Orders">
+          <ResponsiveContainer width="100%" height={350}>
             <BarChart data={summaryData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <XAxis dataKey="name" stroke="#fde68a" />
+              <YAxis stroke="#fde68a" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="count" fill="#8884d8" barSize={80}/>
+              <Bar dataKey="count" fill="#facc15" barSize={60} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartBox>
 
         {/* Pie Chart */}
-  <div className={styles.chartBox}>
-  <h3 className={styles.chartTitle}>Category Distribution</h3>
-  <ResponsiveContainer width="100%" height={300}>
-    <PieChart>
-      <Pie
-        data={categoryData}
-        dataKey="count"
-        nameKey="category"
-        cx="40%"   // shift left to make space for legend
-        cy="50%"
-        outerRadius={110}
-        innerRadius={70}  // ✅ increased inner radius for thicker donut
-        label
-      >
-        {categoryData.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend
-        layout="vertical"
-        align="right"
-        verticalAlign="middle"
-        formatter={(value, entry, index) => (
-          <span style={{ color: COLORS[index % COLORS.length], fontWeight: "500" }}>
-            {value}
-          </span>
-        )}
-      />
-    </PieChart>
-  </ResponsiveContainer>
-</div>
+        <ChartBox title="Category Distribution">
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie
+                data={categoryData}
+                dataKey="count"
+                nameKey="category"
+                cx="40%"
+                cy="50%"
+                outerRadius={110}
+                innerRadius={70}
+                label
+              >
+                {categoryData.map((_, index) => (
+                  <Cell
+                    key={index}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend
+                layout="vertical"
+                align="right"
+                verticalAlign="middle"
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </ChartBox>
 
-{/* Line Chart */}
-<div className={styles.chartBox}>
-  <h3 className={styles.chartTitle}>User Orders Trend</h3>
-  <ResponsiveContainer width="100%" height={400}>
-    <LineChart data={lineChartData}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="orders" stroke="#FF5733" strokeWidth={3} dot={{ r: 5 }} />
-    </LineChart>
-  </ResponsiveContainer>
-</div>
-
-
-
-
+        {/* Line Chart */}
+        <ChartBox title="User Orders Trend">
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={lineChartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <XAxis dataKey="name" stroke="#fde68a" />
+              <YAxis stroke="#fde68a" />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="orders"
+                stroke="#facc15"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartBox>
       </div>
     </>
   );
 };
+
+/* ===============================
+   REUSABLE COMPONENTS
+================================ */
+
+const DashboardCard = ({ icon, label, value }) => (
+  <div className="bg-slate-800 rounded-xl p-5 flex items-center gap-4 shadow-lg hover:shadow-xl transition">
+    <div className="text-3xl p-4 rounded-lg bg-yellow-400 text-slate-900">
+      {icon}
+    </div>
+    <div>
+      <p className="text-sm text-yellow-200">{label}</p>
+      <h3 className="text-2xl font-bold text-yellow-300">{value}</h3>
+    </div>
+  </div>
+);
+
+const ChartBox = ({ title, children }) => (
+  <div className="bg-slate-800 rounded-xl p-6 mb-10 shadow-lg">
+    <h3 className="text-lg font-semibold mb-4 text-yellow-300">
+      {title}
+    </h3>
+    {children}
+  </div>
+);
 
 export default AdminDashboard;

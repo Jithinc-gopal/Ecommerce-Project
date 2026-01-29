@@ -1,77 +1,115 @@
 import React, { useState } from "react";
-import { FaBars, FaBox, FaUsers, FaShoppingCart, FaTachometerAlt } from "react-icons/fa";
-import styles from "./AdminSidebar.module.css";
-// import { Link } from "react-router-dom";
+import {
+  FaBars,
+  FaBox,
+  FaUsers,
+  FaShoppingCart,
+  FaTachometerAlt,
+} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-// import { FaTachometerAlt, FaBox } from "react-icons/fa";
 
 const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
     <>
-      {/* Hamburger for mobile */}
-      <div className={styles.hamburger} onClick={toggleSidebar}>
+      {/* Hamburger (mobile) */}
+      <div
+        className="fixed top-4 left-4 z-50 text-2xl text-yellow-400 cursor-pointer md:hidden"
+        onClick={toggleSidebar}
+      >
         <FaBars />
       </div>
 
-      <div className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
-        <h1 className={styles.logo}>Admin Panel</h1>
-        <ul className={styles.menu}>
-         
-<li>
-  <NavLink 
-    to="/Admin" 
-    className={({ isActive }) => 
-      `${styles.menuLink} ${isActive ? styles.active : ""}`
-    }
-  >
-    <FaTachometerAlt className={styles.icon} />
-    {isOpen && <span>Dashboard</span>}
-  </NavLink>
-</li>
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-screen bg-black text-yellow-400 shadow-xl
+        transition-all duration-300
+        ${isOpen ? "w-64" : "w-20"}
+        hidden md:block`}
+      >
+        {/* Logo */}
+        <h1 className="text-xl font-bold text-center py-6 border-b border-yellow-400">
+          {isOpen ? "Admin Panel" : "AP"}
+        </h1>
 
-<li>
-  <NavLink 
-    to="/AdminProducts" 
-    className={({ isActive }) => 
-      `${styles.menuLink} ${isActive ? styles.active : ""}`
-    }
-  >
-    <FaBox className={styles.icon} />
-    {isOpen && <span>Products</span>}
-  </NavLink>
-</li>
-        <li>
-  <NavLink 
-    to="/AdminUsers" 
-    className={({ isActive }) => 
-      `${styles.menuLink} ${isActive ? styles.active : ""}`
-    }
-  >
-    <FaUsers className={styles.icon} />
-    {isOpen && <span>Users</span>}
-  </NavLink>
-</li>
+        {/* Menu */}
+        <ul className="mt-6 space-y-2 px-3">
+          {/* Dashboard */}
+          <li>
+            <NavLink
+              to="/Admin"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition
+                ${
+                  isActive
+                    ? "bg-yellow-400 text-black"
+                    : "hover:bg-yellow-400 hover:text-black"
+                }`
+              }
+            >
+              <FaTachometerAlt className="text-lg" />
+              {isOpen && <span>Dashboard</span>}
+            </NavLink>
+          </li>
 
-<li>
-  <NavLink 
-    to="/AdminOrders" 
-    className={({ isActive }) => 
-      `${styles.menuLink} ${isActive ? styles.active : ""}`
-    }
-  >
-    <FaShoppingCart className={styles.icon} />
-    {isOpen && <span>Orders</span>}
-  </NavLink>
-</li>
+          {/* Products */}
+          <li>
+            <NavLink
+              to="/AdminProducts"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition
+                ${
+                  isActive
+                    ? "bg-yellow-400 text-black"
+                    : "hover:bg-yellow-400 hover:text-black"
+                }`
+              }
+            >
+              <FaBox className="text-lg" />
+              {isOpen && <span>Products</span>}
+            </NavLink>
+          </li>
 
+          {/* Users */}
+          <li>
+            <NavLink
+              to="/AdminUsers"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition
+                ${
+                  isActive
+                    ? "bg-yellow-400 text-black"
+                    : "hover:bg-yellow-400 hover:text-black"
+                }`
+              }
+            >
+              <FaUsers className="text-lg" />
+              {isOpen && <span>Users</span>}
+            </NavLink>
+          </li>
+
+          {/* Orders */}
+          <li>
+            <NavLink
+              to="/AdminOrders"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition
+                ${
+                  isActive
+                    ? "bg-yellow-400 text-black"
+                    : "hover:bg-yellow-400 hover:text-black"
+                }`
+              }
+            >
+              <FaShoppingCart className="text-lg" />
+              {isOpen && <span>Orders</span>}
+            </NavLink>
+          </li>
         </ul>
-      </div>
+      </aside>
     </>
   );
 };

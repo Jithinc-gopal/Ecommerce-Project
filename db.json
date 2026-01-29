@@ -6,7 +6,18 @@
       "email": "msabeeb@gmail.com",
       "password": "12341234",
       "confirmpassword": "12341234",
-      "cart": [],
+      "cart": [
+        {
+          "id": 1,
+          "title": "classic vector",
+          "description": "classic vector base model",
+          "price": "1999.00",
+          "image": "https://i.pinimg.com/736x/07/26/a9/0726a99bcdfc6afaadd4ad3eac5652da.jpg",
+          "category": 1,
+          "category_name": "Sunglasses",
+          "quantity": 1
+        }
+      ],
       "orders": [
         {
           "id": "3",
@@ -20,7 +31,7 @@
           "frameColor": "Silver",
           "lensColor": "Transparent",
           "quantity": 1,
-          "status": "Delivered"
+          "status": "Pending"
         },
         {
           "id": "6",
@@ -73,50 +84,8 @@
       "email": "jithingopalakrishnan2004@gmail.com",
       "password": "12345678",
       "confirmpassword": "12345678",
-      "cart": [
-        {
-          "id": "2",
-          "title": "Blue Light Blocking Glasses",
-          "price": 899,
-          "currency": "INR",
-          "description": "Protects your eyes from screen glare with anti-reflective coating. Ideal for long hours in front of computers or mobile devices.",
-          "image": "https://i.pinimg.com/736x/c7/53/a5/c753a5d970bc092f7667fa8524dd3a80.jpg",
-          "stock": 15,
-          "category": "Reading glasses",
-          "frameColor": "Black",
-          "lensColor": "Clear",
-          "name": "Oversized Sunglasses",
-          "quantity": 1
-        }
-      ],
-      "WishList": [
-        {
-          "id": "1",
-          "title": "Classic Aviator Sunglasses",
-          "price": 1299,
-          "currency": "INR",
-          "description": "Timeless aviator design with UV protection lenses. Perfect for outdoor activities and driving. Comfortable lightweight frame.",
-          "image": "https://i.pinimg.com/736x/c8/bb/3e/c8bb3e36740b0b456f9e7774532c4e9f.jpg",
-          "stock": 20,
-          "category": "Sunglasses",
-          "frameColor": "Gold",
-          "lensColor": "Green",
-          "name": "Cat-Eye Sunglasses"
-        },
-        {
-          "id": "3",
-          "title": "Round Retro Eyeglasses",
-          "price": 1499,
-          "currency": "INR",
-          "description": "Trendy round frame with lightweight material. Adds a vintage touch to your everyday look while ensuring comfort.",
-          "image": "https://i.pinimg.com/736x/34/f7/f9/34f7f941cb4f137b59aaa7196b022479.jpg",
-          "stock": 10,
-          "category": "Reading glasses",
-          "frameColor": "Silver",
-          "lensColor": "Transparent",
-          "name": "Clubmaster Sunglasses"
-        }
-      ],
+      "cart": [],
+      "WishList": [],
       "orders": [
         {
           "id": "1",
@@ -328,6 +297,20 @@
           "lensColor": "Clear",
           "name": "Oversized Sunglasses",
           "quantity": 1
+        },
+        {
+          "id": "3",
+          "title": "Round Retro Eyeglasses",
+          "price": 1499,
+          "currency": "INR",
+          "description": "Trendy round frame with lightweight material. Adds a vintage touch to your everyday look while ensuring comfort.",
+          "image": "https://i.pinimg.com/736x/34/f7/f9/34f7f941cb4f137b59aaa7196b022479.jpg",
+          "stock": 10,
+          "category": "Reading glasses",
+          "frameColor": "Silver",
+          "lensColor": "Transparent",
+          "name": "Clubmaster Sunglasses",
+          "quantity": 1
         }
       ],
       "status": "Active"
@@ -538,7 +521,21 @@
       "email": "admin@gmail.com",
       "password": "admin123",
       "confirmpassword": "admin123",
-      "cart": [],
+      "cart": [
+        {
+          "id": "10",
+          "title": "Classic Aviator Sunglasses",
+          "price": 1299,
+          "currency": "INR",
+          "description": "Timeless aviator design with UV protection lenses.",
+          "image": "https://i.pinimg.com/1200x/5b/d2/c9/5bd2c9abc116d0a5f438f82cb2b662fd.jpg",
+          "stock": 20,
+          "category": "Sunglasses",
+          "frameColor": "Gold",
+          "lensColor": "Green",
+          "quantity": 1
+        }
+      ],
       "role": "admin"
     },
     {
@@ -639,6 +636,69 @@
         }
       ],
       "status": "Active"
+    },
+    {
+      "id": "9bce",
+      "username": "ysfff",
+      "email": "ysf@gmail.com",
+      "password": "12345",
+      "confirmpassword": "12345",
+      "cart": [],
+      "role": "user"
+    },
+    {
+      "id": "d875",
+      "username": "ajmal",
+      "email": "aj@gmail.com",
+      "password": "aj123",
+      "confirmpassword": "aj123",
+      "cart": [],
+      "role": "user",
+      "WishList": [
+        {
+          "id": "5",
+          "title": "Blue Light Blocking Glasses",
+          "price": 899,
+          "currency": "INR",
+          "description": "Reduces eye strain from prolonged screen exposure. Stylish and lightweight design for office or home use.",
+          "image": "https://i.pinimg.com/1200x/d3/cc/74/d3cc74adc35e73362b118db1e23aeed9.jpg",
+          "stock": 15,
+          "category": "Computer Glasses",
+          "frameColor": "Black",
+          "lensColor": "Clear",
+          "name": "Sport Sunglasses"
+        }
+      ],
+      "orders": [
+        {
+          "id": "3",
+          "title": "Round Retro Eyeglasses",
+          "price": 1499,
+          "currency": "INR",
+          "description": "Trendy round frame with lightweight material. Adds a vintage touch to your everyday look while ensuring comfort.",
+          "image": "https://i.pinimg.com/736x/34/f7/f9/34f7f941cb4f137b59aaa7196b022479.jpg",
+          "stock": 10,
+          "category": "Reading glasses",
+          "frameColor": "Silver",
+          "lensColor": "Transparent",
+          "name": "Clubmaster Sunglasses",
+          "quantity": 1
+        },
+        {
+          "id": "5",
+          "title": "Blue Light Blocking Glasses",
+          "price": 899,
+          "currency": "INR",
+          "description": "Reduces eye strain from prolonged screen exposure. Stylish and lightweight design for office or home use.",
+          "image": "https://i.pinimg.com/1200x/d3/cc/74/d3cc74adc35e73362b118db1e23aeed9.jpg",
+          "stock": 15,
+          "category": "Computer Glasses",
+          "frameColor": "Black",
+          "lensColor": "Clear",
+          "name": "Sport Sunglasses",
+          "quantity": 1
+        }
+      ]
     }
   ],
   "products": [

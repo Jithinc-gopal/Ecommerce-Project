@@ -1,85 +1,132 @@
-import React, { useState } from "react";
-import axios from "axios";
-import styles from "./AdminProducts.module.css";
+import React, { useEffect, useState } from "react";
+import API from "../api/axios";
 
 const AddProductForm = ({ onClose, onProductAdded }) => {
-  const [newProduct, setNewProduct] = useState({
-    id: "",
-    title: "",       // changed from name to title
-    price: "",
-    category: "",
-    image: "",
+  const [categories, setCategories] = useState([]);
+
+  const [formData, setFormData] = useState({
+    title: "",
     description: "",
+    price: "",
+    image: "",
+    category: "",
   });
 
-  const addProduct = async (e) => {
+  /* =========================
+     FETCH CATEGORIES
+  ========================= */
+  useEffect(() => {
+    API.get("/products/categories/")
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.error("Category load failed", err));
+  }, []);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  /* =========================
+     SUBMIT FORM
+  ========================= */
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await axios.post("http://localhost:3000/products", newProduct);
-      setNewProduct({
-        id: "",
-        title: "",
-        price: "",
-        category: "",
-        image: "",
-        description: "",
+      await API.post("/products/products/", {
+        title: formData.title,
+        description: formData.description,
+        price: Number(formData.price),
+        image: formData.image,
+        category: Number(formData.category),
       });
-      onProductAdded(); // refresh product list
-      onClose(); // close modal
+
+      onProductAdded();
+      onClose();
     } catch (err) {
-      console.error("Error adding product", err);
+      console.error("Add product failed", err.response?.data);
+      alert("Check all fields");
     }
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.formContainer}>
-        <h2>Add New Product</h2>
-        <form onSubmit={addProduct} className={styles.form}>
+    /* OVERLAY */
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
+      {/* MODAL */}
+      <div className="bg-white w-full max-w-lg rounded-xl shadow-xl p-6">
+        <h2 className="text-2xl font-bold text-black mb-6">
+          Add <span className="text-yellow-500">Product</span>
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* TITLE */}
           <input
-            type="text"
-            placeholder="ID"
-            value={newProduct.id}
-            onChange={(e) => setNewProduct({ ...newProduct, id: e.target.value })}
+            name="title"
+            placeholder="Product Title"
+            onChange={handleChange}
             required
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
-          <input
-            type="text"
-            placeholder="Title"
-            value={newProduct.title}
-            onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
+
+          {/* DESCRIPTION */}
+          <textarea
+            name="description"
+            placeholder="Product Description"
+            rows="3"
+            onChange={handleChange}
             required
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
+
+          {/* PRICE */}
           <input
             type="number"
+            name="price"
             placeholder="Price"
-            value={newProduct.price}
-            onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+            onChange={handleChange}
             required
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
+
+          {/* IMAGE */}
           <input
-            type="text"
-            placeholder="Category"
-            value={newProduct.category}
-            onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-            required
-          />
-          <input
-            type="text"
+            name="image"
             placeholder="Image URL"
-            value={newProduct.image}
-            onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+            onChange={handleChange}
             required
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
-          <textarea
-            placeholder="Description"
-            value={newProduct.description}
-            onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+
+          {/* CATEGORY */}
+          <select
+            name="category"
+            onChange={handleChange}
             required
-          ></textarea>
-          <div className={styles.formActions}>
-            <button type="submit">Save</button>
-            <button type="button" onClick={onClose}>Cancel</button>
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          >
+            <option value="">Select Category</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+
+          {/* ACTIONS */}
+          <div className="flex justify-end gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="px-5 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-yellow-500 transition"
+            >
+              Add Product
+            </button>
           </div>
         </form>
       </div>
