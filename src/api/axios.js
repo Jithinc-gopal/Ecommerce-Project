@@ -1,13 +1,16 @@
 import axios from "axios";
 
-// MAIN API instance (used everywhere in your app)
+// Base URL from .env
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// MAIN API instance
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: BASE_URL,
 });
 
 // SEPARATE instance ONLY for refresh (no interceptors)
 const refreshAPI = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: BASE_URL,
 });
 
 /* ================================
@@ -32,34 +35,25 @@ API.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // ❌ If refresh endpoint itself fails → do NOT retry
+    // ❌ If refresh endpoint itself fails → logout
     if (originalRequest.url.includes("/api/refresh/")) {
       localStorage.clear();
       window.location.href = "/login";
       return Promise.reject(error);
     }
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
         const refresh = localStorage.getItem("refresh");
+        if (!refresh) throw new Error("No refresh token");
 
-        if (!refresh) {
-          throw new Error("No refresh token");
-        }
-
-        // ✅ Use refreshAPI (NO Authorization header)
-        const res = await refreshAPI.post("/api/refresh/", {
-          refresh,
-        });
+        // ✅ Refresh token request
+        const res = await refreshAPI.post("/api/refresh/", { refresh });
 
         localStorage.setItem("access", res.data.access);
 
-        // Update headers and retry original request  
         originalRequest.headers.Authorization =
           `Bearer ${res.data.access}`;
 
