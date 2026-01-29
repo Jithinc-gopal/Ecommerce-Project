@@ -6,7 +6,7 @@ import { Context as SearchContext } from "../../Context/Search";
 import { CountContext } from "../../Context/CountContext";
 import { Navbar } from "../../components/Navbar/Navbar";
 
-export const Sunglasses = () => {
+const Sunglasses = () => {
   const navigate = useNavigate();
   const { search } = useContext(SearchContext);
   const { setCartCount, setWishlistCount } = useContext(CountContext);
@@ -441,3 +441,4 @@ export const Sunglasses = () => {
     </>
   );
 };
+export default Sunglasses;
